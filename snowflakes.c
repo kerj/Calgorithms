@@ -20,29 +20,38 @@
 // The output should be "Duplicates found" if a duplicate snowfake exists or "No dupicates" if one does not.
 
 int are_same(int s1[], int s2[]);
+void check_flakes(int snowflakes[][6], int n);
+int check_right(int s1[], int s2[], int start);
+int check_left(int s1[], int s2[], int start);
 
-int main(void)
+    int main(void)
 {
-  int a[6] = {1, 2, 3, 4, 5, 6};
-  int b[6] = {3, 2, 1, 6, 5, 4};
-  return are_same(a, b);
+  static int snowflakes[100000][6];
+  int n,i,j;
+  scanf("%d", &n);
+
+  for (i = 0; i < n; i++) 
+    for (j=0; j < 6; j++) 
+      scanf("%d", &snowflakes[i][j]);
+  check_flakes(snowflakes, n);
+  return 0;
 }
 
-void check_flakes(int snowflakes[], int n)
+void check_flakes(int snowflakes[][6], int n)
 {
   int i, j;
   for (i = 0; i < n; i++)
   {
     for (j = i + 1; j < n; j++)
     {
-      if (snowflakes[i] == snowflakes[j])
+      if (are_same(snowflakes[i],snowflakes[j]))
       {
-        printf("Duplicates found \n");
+        printf("Twin snowflakes found.\n");
         return;
       }
     }
   }
-  printf("No duplicates \n");
+  printf("No two snowflakes are alike.\n");
 }
 
 int check_right(int s1[], int s2[], int start)
@@ -88,15 +97,12 @@ int are_same(int s1[], int s2[])
   {
     if (check_right(s1, s2, start))
     {
-      printf("match right");
       return 1;
     }
     if (check_left(s1, s2, start))
     {
-      printf("match left");
       return 1;
     }
   }
-  printf("match none");
   return 0;
 }
