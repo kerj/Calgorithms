@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 // Given a collection of snowflakes, determine whether any
 // of the snowflakes in the collection are identical.
@@ -19,36 +20,70 @@
 // and an array of snowflakes whose arm lengths are between 0 and 10,000,000.
 // The output should be "Duplicates found" if a duplicate snowfake exists or "No dupicates" if one does not.
 
+#define SIZE 100000
+typedef struct snowflake_node
+{
+  int snowflake[6];
+  struct snowflake_node *next;
+} snowflake_node;
+
 int are_same(int s1[], int s2[]);
-void check_flakes(int snowflakes[][6], int n);
+void check_flakes(snowflake_node *snowflakes[]);
 int check_right(int s1[], int s2[], int start);
 int check_left(int s1[], int s2[], int start);
 
-    int main(void)
+int sum(int snowflake[])
 {
-  static int snowflakes[100000][6];
-  int n,i,j;
+  return (snowflake[0] + snowflake[1] + snowflake[2] + snowflake[3] + snowflake[4] + snowflake[5]) % SIZE;
+}
+
+int main(void)
+{
+  static snowflake_node *snowflakes[SIZE] = {NULL};
+  snowflake_node *snow;
+  int n, i, j, snowflake_sum;
   scanf("%d", &n);
 
-  for (i = 0; i < n; i++) 
-    for (j=0; j < 6; j++) 
-      scanf("%d", &snowflakes[i][j]);
-  check_flakes(snowflakes, n);
+  for (i = 0; i < n; i++)
+  {
+    snow = malloc(sizeof(snowflake_node));
+    if (snow == NULL)
+    {
+      fprintf(stderr, "malloc error\n");
+      exit(1);
+    }
+    for (j = 0; j < 6; j++)
+      scanf("%d", &snow->snowflake[j]);
+    snowflake_sum = sum(snow->snowflake);
+    snow->next = snowflakes[snowflake_sum];
+    snowflakes[snowflake_sum] = snow;
+    free(snow);
+  }
+  check_flakes(snowflakes);
+
   return 0;
 }
 
-void check_flakes(int snowflakes[][6], int n)
+void check_flakes(snowflake_node *snowflakes[])
 {
-  int i, j;
-  for (i = 0; i < n; i++)
+  snowflake_node *node1, *node2;
+  int i;
+  for (i = 0; i < SIZE; i++)
   {
-    for (j = i + 1; j < n; j++)
+    node1 = snowflakes[i];
+    while (node1 != NULL)
     {
-      if (are_same(snowflakes[i],snowflakes[j]))
+      node2 = node1->next;
+      while (node2 != NULL)
       {
-        printf("Twin snowflakes found.\n");
-        return;
+        if (are_same(node1->snowflake, node2->snowflake))
+        {
+          printf("Twin snowflakes found.\n");
+          return;
+        }
+        node2 = node2->next;
       }
+      node1 = node1->next;
     }
   }
   printf("No two snowflakes are alike.\n");
