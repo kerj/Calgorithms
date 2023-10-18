@@ -18,7 +18,7 @@
 
 // the inputs will be n, the number of snowflakes between 1 - 100,000
 // and an array of snowflakes whose arm lengths are between 0 and 10,000,000.
-// The output should be "Duplicates found" if a duplicate snowfake exists or "No dupicates" if one does not.
+// The output should be "Twin snowflakes found." if a duplicate snowfake exists or "No two snowflakes are alike." if one does not.
 
 #define SIZE 100000
 typedef struct snowflake_node
