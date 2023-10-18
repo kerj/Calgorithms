@@ -31,7 +31,7 @@ int are_same(int s1[], int s2[]);
 void check_flakes(snowflake_node *snowflakes[]);
 int check_right(int s1[], int s2[], int start);
 int check_left(int s1[], int s2[], int start);
-
+// create a sum of all arm lengths, modolo operator to keep memory size to a minimum needed for the problem
 int sum(int snowflake[])
 {
   return (snowflake[0] + snowflake[1] + snowflake[2] + snowflake[3] + snowflake[4] + snowflake[5]) % SIZE;
@@ -52,6 +52,7 @@ int main(void)
       fprintf(stderr, "malloc error\n");
       exit(1);
     }
+    // create single-linked list
     for (j = 0; j < 6; j++)
       scanf("%d", &snow->snowflake[j]);
     snowflake_sum = sum(snow->snowflake);
@@ -63,7 +64,8 @@ int main(void)
 
   return 0;
 }
-
+// go through the linked lists for sum of snowflakes lengths % SIZE
+// ex: 1,1,1,1,1,7 and 2,2,2,2,2,2 would get compared but we reduce the # of comparisions greatly
 void check_flakes(snowflake_node *snowflakes[])
 {
   snowflake_node *node1, *node2;
