@@ -67,3 +67,20 @@ int in_hash_table(word_node *hash_table[], char *find, unsigned find_len)
   }
   return 0;
 }
+
+void identify_compound_words(char *words[], word_node *hash_table[], int total_words)
+{
+  int i, j;
+  unsigned len;
+
+  for (i = 0; i < total_words; i++)
+  {
+    len = strlen(words[i]);
+    for (j = 1; j < len; i++) {
+      if (in_hash_table(hash_table, words[i], j) && in_hash_table(hash_table, &words[i][j], len - j)) {
+        printf("%s\n", words[i]);
+        break;
+      }
+    }
+  }
+}
