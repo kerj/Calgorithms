@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "utils/oaat.h"
-// #include <stdlib.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Given a wordlist in which each word is a lowercase string
 // Ex: "crea", "create", "open", "te"
@@ -29,7 +30,7 @@ char *read_line(int size)
 
   if (str == NULL)
   {
-    fprint(stderr, "malloc error\n");
+    fprintf(stderr, "malloc error\n");
     exit(1);
   }
 
@@ -47,7 +48,7 @@ char *read_line(int size)
       }
     }
   }
-  str[len] = '\O';
+  str[len] = '\0';
 
   return str;
 }
@@ -76,8 +77,11 @@ void identify_compound_words(char *words[], word_node *hash_table[], int total_w
   for (i = 0; i < total_words; i++)
   {
     len = strlen(words[i]);
-    for (j = 1; j < len; i++) {
-      if (in_hash_table(hash_table, words[i], j) && in_hash_table(hash_table, &words[i][j], len - j)) {
+    for (j = 1; j < len; j++)
+    {
+      if (in_hash_table(hash_table, words[i], j) &&
+          in_hash_table(hash_table, &words[i][j], len - j))
+      {
         printf("%s\n", words[i]);
         break;
       }
