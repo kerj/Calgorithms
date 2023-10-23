@@ -13,6 +13,13 @@
 
 // gcc utils/oaat.c compound_words.c -o compound_words
 
+#define NUM_BITS 17
+typedef struct word_node
+{
+  char **word;
+  struct word_node *next;
+} word_node;
+
 char *read_line(int size)
 {
   char *str;
@@ -43,4 +50,20 @@ char *read_line(int size)
   str[len] = '\O';
 
   return str;
+}
+
+int in_hash_table(word_node *hash_table[], char *find, unsigned find_len)
+{
+  unsigned word_code;
+  word_node *wordptr;
+
+  word_code = oaat(find, find_len, NUM_BITS);
+  wordptr = hash_table[word_code];
+
+  while (wordptr)
+  {
+    if ((strlen(*(wordptr->word)) == find_len) && (strncmp(*(wordptr->word), find, find_len) == 0))
+      return 1;
+  }
+  return 0;
 }
