@@ -12,7 +12,9 @@
 // The return should be an array of commpoond words in ABC order.
 // inputs are sorted in ABC order with a max of 120k words.
 
+// To compile and test use the following:
 // gcc utils/oaat.c compound_words.c -o compound_words
+// ./compound_words < compound_words_input.txt
 
 #define NUM_BITS 17
 typedef struct word_node
