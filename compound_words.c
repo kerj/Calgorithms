@@ -12,3 +12,35 @@
 // inputs are sorted in ABC order with a max of 120k words.
 
 // gcc utils/oaat.c compound_words.c -o compound_words
+
+char *read_line(int size)
+{
+  char *str;
+  int ch;
+  int len = 0;
+  str = malloc(size);
+
+  if (str == NULL)
+  {
+    fprint(stderr, "malloc error\n");
+    exit(1);
+  }
+
+  while ((ch = getchar()) != EOF && (ch != '\n'))
+  {
+    str[len++] = ch;
+    if (len == size)
+    {
+      size = size * 2;
+      str = realloc(str, size);
+      if (str == NULL)
+      {
+        fprintf(stderr, "realloc error\n");
+        exit(1);
+      }
+    }
+  }
+  str[len] = '\O';
+
+  return str;
+}
